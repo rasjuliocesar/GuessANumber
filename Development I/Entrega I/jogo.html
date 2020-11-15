@@ -4,21 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jogo - Advinhe um Número</title>
+    <style>
+        header{
+            text-align: center;
+        }
+
+        section{
+            background-color: rgba(115, 146, 98, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            width: 500px;
+            margin: auto;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 361);
+        }
+
+        div{
+            padding: 10px;
+            text-align: center;
+        } 
+        p{
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <h3>Jogo - Advinhe um Número</h3>
-        <p>Você terá até 10 chances para adivinhar o número que estou pensando.</p>
+    <header>
+        <h2>Jogo - Advinhe um Número</h2>
+    </header>
+
+    <section>
         <div>
-            <p>Digite seu palpite:</p> 
-            <input type="text" id="numeroDigitado"  />
-            <button>Enviar palpite</button>   
+        
+            <p>Você terá até 10 chances para adivinhar o número que estou pensando.</p>
+            
+            <div>
+                <p>Digite seu palpite:</p>
+                <input type="text" id="numeroDigitado"  />
+                <button>Enviar palpite</button>   
+            </div>
+            
+            <div id="numerosInformados"></div>
+            
+            <div id="resultado"></div>
+            
+            <div id="dicas"></div>
         </div>
-        <br />
-        <div id="numerosInformados"></div>
-        <div id="resultado"></div>
-        <div id="dicas"></div>
-    </div>
+    </section>
     
     <script>
         window.addEventListener('load', start)
@@ -26,8 +57,9 @@
         function start(){
             const numero = Math.trunc((Math.random() * 100) + 1)
             const botao = document.querySelector('button')    
-
-            console.log(numero)      
+            let numeroDigitado = document.querySelector('#numeroDigitado')
+            numeroDigitado.focus()
+            //console.log(numero)      
 
             let tentativas = 0
             let informados = []
@@ -41,32 +73,46 @@
                 tentativas++
 
                 if(tentativas <= 10){
-                    let numeroDigitado = document.querySelector('#numeroDigitado')
+                    
                     let valorNumeroDigitado = Number(numeroDigitado.value)
-                    informados.push(valorNumeroDigitado)
-                    if(valorNumeroDigitado === numero){
+                    
+                    if(valorNumeroDigitado == ' ' || !Number.isInteger(valorNumeroDigitado)){
+                        tentativas--
+                        limparInput()
+                        alert('Digite um número inteiro e positivo válido!')
+                    } else if(valorNumeroDigitado === numero){
+                        informados.push(valorNumeroDigitado)
                         numerosInformados.innerHTML = `Palpites anteriores: ${informados}`
-                        resultado.style.backgroundColor = 'green'
+                        resultado.style.backgroundColor = '#00FF7F'
                         resultado.textContent = 'Você Acertou!!!'
                         dicas.textContent = ''
-
+                        limparInput()
                         botao.setAttribute('disabled', 'disabled')
                     } else if(tentativas == 10){
+                        informados.push(valorNumeroDigitado)
                         numerosInformados.textContent = `Palpites anteriores: ${informados}`
                         dicas.textContent = ''
-                        resultado.style.backgroundColor = 'orange'
+                        resultado.style.backgroundColor = '#DAA520'
                         resultado.textContent = `O Número de chances acabou!!! O Número era: ${numero}`
+                        limparInput()
                         botao.setAttribute('disabled', 'disabled')
                     } else {
+                        informados.push(valorNumeroDigitado)
                         numerosInformados.innerHTML = `Palpites anteriores: ${informados}`
-                        resultado.style.backgroundColor = 'red'
+                        resultado.style.backgroundColor = '#FF6347'
                         resultado.textContent = 'Você Errou!!!'
+                        limparInput()
                         if(valorNumeroDigitado > numero){
                             dicas.textContent = 'Palpite muito alto!!!'
                         } else {
                             dicas.textContent = 'Palpite muito baixo!!!'
                         }
                     }
+                }
+
+                function limparInput(){
+                    numeroDigitado.value = ''
+                    numeroDigitado.focus()
                 }
             }
         }
