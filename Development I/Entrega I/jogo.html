@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo - Advinhe um Número</title>
+</head>
+<body>
+    <div>
+        <h3>Jogo - Advinhe um Número</h3>
+        <p>Você terá até 10 chances para adivinhar o número que estou pensando.</p>
+        <div>
+            <p>Digite seu palpite:</p> 
+            <input type="text" id="numeroDigitado"  />
+            <button>Enviar palpite</button>   
+        </div>
+        <br />
+        <div id="numerosInformados"></div>
+        <div id="resultado"></div>
+        <div id="dicas"></div>
+    </div>
+    
+    <script>
+        window.addEventListener('load', start)
+
+        function start(){
+            const numero = Math.trunc((Math.random() * 100) + 1)
+            const botao = document.querySelector('button')    
+
+            console.log(numero)      
+
+            let tentativas = 0
+            let informados = []
+            let numerosInformados = document.querySelector('#numerosInformados')
+            let resultado = document.querySelector('#resultado')
+            let dicas = document.querySelector('#dicas')
+
+            botao.addEventListener('click', compararNumero)
+
+            function compararNumero(){
+                tentativas++
+
+                if(tentativas <= 10){
+                    let numeroDigitado = document.querySelector('#numeroDigitado')
+                    let valorNumeroDigitado = Number(numeroDigitado.value)
+                    informados.push(valorNumeroDigitado)
+                    if(valorNumeroDigitado === numero){
+                        numerosInformados.innerHTML = `Palpites anteriores: ${informados}`
+                        resultado.style.backgroundColor = 'green'
+                        resultado.textContent = 'Você Acertou!!!'
+                        dicas.textContent = ''
+
+                        botao.setAttribute('disabled', 'disabled')
+                    } else if(tentativas == 10){
+                        numerosInformados.textContent = `Palpites anteriores: ${informados}`
+                        dicas.textContent = ''
+                        resultado.style.backgroundColor = 'orange'
+                        resultado.textContent = `O Número de chances acabou!!! O Número era: ${numero}`
+                        botao.setAttribute('disabled', 'disabled')
+                    } else {
+                        numerosInformados.innerHTML = `Palpites anteriores: ${informados}`
+                        resultado.style.backgroundColor = 'red'
+                        resultado.textContent = 'Você Errou!!!'
+                        if(valorNumeroDigitado > numero){
+                            dicas.textContent = 'Palpite muito alto!!!'
+                        } else {
+                            dicas.textContent = 'Palpite muito baixo!!!'
+                        }
+                    }
+                }
+            }
+        }
+    </script>    
+</body>
+</html>
