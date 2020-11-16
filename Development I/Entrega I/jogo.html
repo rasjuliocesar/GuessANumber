@@ -31,32 +31,31 @@
     <header>
         <h2>Jogo - Advinhe um Número</h2>
     </header>
-
     <section>
         <div>
-        
             <p>Você terá até 10 chances para adivinhar o número que estou pensando.</p>
-            
             <div>
                 <p>Digite seu palpite:</p>
                 <input type="text" id="numeroDigitado"  />
                 <button>Enviar palpite</button>   
             </div>
-            
             <div id="numerosInformados"></div>
-            
             <div id="resultado"></div>
-            
             <div id="dicas"></div>
+            <div id="reiniciar" onclick="clicar()"></div>
         </div>
     </section>
-    
     <script>
         window.addEventListener('load', start)
 
+        function clicar(){
+            window.location.reload()
+        }
+
         function start(){
             const numero = Math.trunc((Math.random() * 100) + 1)
-            const botao = document.querySelector('button')    
+            const botao = document.querySelector('button')
+            
             let numeroDigitado = document.querySelector('#numeroDigitado')
             numeroDigitado.focus()
             //console.log(numero)      
@@ -70,11 +69,13 @@
             botao.addEventListener('click', compararNumero)
 
             function compararNumero(){
+                let botaoReiniciar = document.querySelector('#reiniciar')
                 tentativas++
 
                 if(tentativas <= 10){
                     
                     let valorNumeroDigitado = Number(numeroDigitado.value)
+                    let reiniciar = document.querySelector('#reiniciar')
                     
                     if(valorNumeroDigitado == ' ' || !Number.isInteger(valorNumeroDigitado)){
                         tentativas--
@@ -88,6 +89,7 @@
                         dicas.textContent = ''
                         limparInput()
                         botao.setAttribute('disabled', 'disabled')
+                        reiniciar.innerHTML = "<button>Iniciar novo jogo</button>"
                     } else if(tentativas == 10){
                         informados.push(valorNumeroDigitado)
                         numerosInformados.textContent = `Palpites anteriores: ${informados}`
@@ -96,6 +98,7 @@
                         resultado.textContent = `O Número de chances acabou!!! O Número era: ${numero}`
                         limparInput()
                         botao.setAttribute('disabled', 'disabled')
+                        reiniciar.innerHTML = "<button>Iniciar novo jogo</button>"
                     } else {
                         informados.push(valorNumeroDigitado)
                         numerosInformados.innerHTML = `Palpites anteriores: ${informados}`
