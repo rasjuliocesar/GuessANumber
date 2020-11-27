@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+</head>
+<body>
+    <!--1--><a href="http://jquery.com/">jQuery</a>
+
+    <button id="ocultar">Ocultar o Conteúdo</button>
+    <button id="apresentar">Apresentar o Conteúdo</button>
+    <p id="texto1">Texto que será apresentado e ocultado com botões distintos.</p>
+    
+    <hr />
+
+    <button id="ocultarTempo">Ocultar o Conteúdo</button>
+    <button id="apresentarTempo">Apresentar o Conteúdo</button>
+    <p id="texto2">Texto que será apresentado e ocultado com botões distintos.</p>
+    
+    <hr />
+
+    <button id="ocultarApresentar">Ocultar e Apresentar o Conteúdo</button>
+    <p id="texto3">Texto que será apresentado e ocultado com botões distintos.</p>
+    
+
+    <!--1--><!-- <script src="jquery.js"></script> -->
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <script>
+ 
+       //1
+       /*$("a").click(function() {
+            alert("Tutorial")
+        })*/
+
+        $(document).ready(function() {
+            $("#ocultar").click(function() {
+                $("#texto1").hide()
+            })
+
+            $("#apresentar").click(function() {
+                $("#texto1").show()
+            })
+
+            $("#ocultarTempo").click(function() {
+                $("#texto2").hide(1500)
+            })
+
+            $("#apresentarTempo").click(function() {
+                $("#texto2").show(1500)
+            })
+
+            $("#ocultarApresentar").click(function() {
+                $("#texto3").toggle()
+            })
+
+            
+
+        })
+
+    </script>
+</body>
+</html>
